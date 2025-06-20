@@ -3,7 +3,7 @@ name: Test Runner Git + File
 on:
   push:
     branches:
-      - master  # или main, если у тебя другая ветка
+      - develop  # или main, если у тебя другая ветка
 
 jobs:
   test:
