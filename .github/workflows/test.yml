@@ -1,0 +1,20 @@
+name: Test Runner Git + File
+
+on:
+  push:
+    branches:
+      - master  # или main, если у тебя другая ветка
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: 🌀 Клонировать репозиторий (checkout)
+        uses: actions/checkout@v3
+
+      - name: 📄 Создать файл на сервере
+        run: echo "Привет из GitHub Actions на сервере!" > runner-test.txt
+
+      - name: 🔍 Проверка, что файл существует
+        run: ls -la && cat runner-test.txt
