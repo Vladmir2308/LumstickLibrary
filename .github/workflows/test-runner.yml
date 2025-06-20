@@ -1,14 +1,21 @@
-name: Test Runner
+name: Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
-  test:
-    runs-on: self-hosted
+  project_build:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Проверка запуска
-        run: echo "✅ Runner работает на сервере!"
-      
-      - name: Создаём тестовый файл
-        run: touch ~/test-runner-file.txt
+      - name: Checkout репозиторий
+        uses: actions/checkout@v3
+
+      - name: Вывести путь
+        run: pwd
+
+      - name: Создать файл some.txt
+        run: touch some.txt
+
