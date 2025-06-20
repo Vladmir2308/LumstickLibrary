@@ -17,3 +17,4 @@ jobs:
         run: pwd
 
       - name: Создать файл some.txt
+        run: touch some.txt
