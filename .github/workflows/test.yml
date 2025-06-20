@@ -13,8 +13,11 @@ jobs:
       - name: 🌀 Клонировать репозиторий (checkout)
         uses: actions/checkout@v3
 
-      - name: 📄 Создать файл на сервере
-        run: echo "Привет из GitHub Actions на сервере!" > runner-test.txt
+      - name: Загрузить composer
+        run: composer install
 
-      - name: 🔍 Проверка, что файл существует
-        run: ls -la && cat runner-test.txt
+      - name: Загрузить npm
+        run: npm install
+
+      - name: Забилдить проект
+        run: npm run build
