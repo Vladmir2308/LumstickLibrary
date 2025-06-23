@@ -39,6 +39,9 @@ jobs:
       - name: 🏗 Сборка фронтенда
         run: npm run build
 
+      - name: 🛡 Дать права на storage
+        run: chmod -R 777 storage
+
   deploy:
     name: 🚀 Деплой проекта на сервер
     runs-on: self-hosted
