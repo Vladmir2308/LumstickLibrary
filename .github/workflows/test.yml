@@ -39,8 +39,8 @@ jobs:
       - name: 🏗 Сборка фронтенда
         run: npm run build
 
-#      - name: 🛡 Дать права на storage
-#        run: chmod 777 -R /var/www/LumstickLibrary/storage
+      - name: 🛡 Дать права на storage
+        run: sudo chmod 777 -R storage
 
   deploy:
     name: 🚀 Деплой проекта на сервер
@@ -51,5 +51,4 @@ jobs:
       - name: 📂 Копирование проекта в /var/www/project
         run: |
           rm -rf /var/www/LumstickLibrary/*
-          cp -R . /var/www/LumstickLibrary
-          chmod 777 -R /var/www/LumstickLibrary/storage
+          sudo cp -R . /var/www/LumstickLibrary
