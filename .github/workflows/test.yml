@@ -47,5 +47,5 @@ jobs:
     steps:
       - name: 📂 Копирование проекта в /var/www/project
         run: |
-          rm -rf /var/www/project/*
-          cp -R . /var/www/project
+          rm -rf /var/www/LumstickLibrary/*
+          cp -R . /var/www/LumstickLibrary
