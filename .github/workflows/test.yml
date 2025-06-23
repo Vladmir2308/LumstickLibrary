@@ -52,3 +52,4 @@ jobs:
         run: |
           rm -rf /var/www/LumstickLibrary/*
           cp -R . /var/www/LumstickLibrary
+          sudo chown -R github-runner:www-data /var/www/LumstickLibrary
