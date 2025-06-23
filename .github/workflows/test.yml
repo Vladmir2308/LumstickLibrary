@@ -40,7 +40,7 @@ jobs:
         run: npm run build
 
       - name: 🛡 Дать права на storage
-        run: chmod 777 -R /var/www/LumstickLibrary/storage
+        run: chmod 777 -R storage
 
   deploy:
     name: 🚀 Деплой проекта на сервер
