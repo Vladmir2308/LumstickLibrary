@@ -48,8 +48,7 @@ jobs:
     needs: build
 
     steps:
-      - name: 📂 Копирование проекта в /var/www/project
+      - name: 📂 Копирование проекта в /var/www/LumstickLibrary
         run: |
           rm -rf /var/www/LumstickLibrary/*
-          sudo cp -R . /var/www/LumstickLibrary
-          sudo chmod 777 -R /var/www/LumstickLibrary/storage
+          cp -R . /var/www/LumstickLibrary
