@@ -52,8 +52,7 @@ jobs:
         run: |
           rm -rf /var/www/LumstickLibrary/*
           cp -R . /var/www/LumstickLibrary
-          rm /var/www/LumstickLibrary/.env
-          cp /var/www/LumstickLibrary/.env.example .env
+          cp -f /var/www/LumstickLibrary/.env.example .env
           /usr/bin/php /var/www/LumstickLibrary/artisan key:generate
           /usr/bin/php /var/www/LumstickLibrary/artisan migrate
           sudo chown -R github-runner:www-data /var/www/LumstickLibrary
