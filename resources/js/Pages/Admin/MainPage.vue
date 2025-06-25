@@ -5,7 +5,9 @@ import AdminLayout from "@/Layouts/AdminLayout.vue";
 
 <template>
     <AdminLayout>
-        <h1>Hello World!</h1>
+        <div class="h-screen w-full flex justify-center items-center">
+            <h1 class="">This is ADMIN page. Hello!</h1>
+        </div>
     </AdminLayout>
 </template>
 

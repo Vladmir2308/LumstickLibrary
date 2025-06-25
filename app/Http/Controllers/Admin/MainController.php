@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Inertia\Inertia;
 
-class AdminMainController
+class MainController
 {
     public function index()
     {
