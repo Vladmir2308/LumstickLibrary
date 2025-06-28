@@ -4,13 +4,14 @@ import ButtonDefault from "@/Components/Admin/Buttons/ButtonDefault.vue";
 import {useForm} from "@inertiajs/vue3";
 import DefaultCard from "@/Components/Admin/Forms/DefaultCard.vue";
 import DefaultLabel from "@/Components/Admin/Forms/DefaultLabel.vue";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import AlertWarning from "@/Components/Admin/Alerts/AlertWarning.vue";
 import AlertSuccess from "@/Components/Admin/Alerts/AlertSuccess.vue";
 import AlertError from "@/Components/Admin/Alerts/AlertError.vue";
-import InputGroup from "@/Components/Admin/Forms/InputGroup.vue";
-import TextInput from "@/Components/Admin/Forms/TextInput.vue";
-import FileInput from "@/Components/Admin/Forms/FileInput.vue";
+import TextInput from "@/Components/Admin/Forms/Inputs/TextInput.vue";
+import FileInput from "@/Components/Admin/Forms/Inputs/FileInput.vue";
+import TextArea from "@/Components/Admin/Forms/Inputs/TextArea.vue";
+import SelectGroupOne from "@/Components/Admin/Forms/SelectGroupOne.vue";
 
 const mediaData = useForm({
     media_link: null,
@@ -43,8 +44,8 @@ const alertsStatus = ref({
     },
 })
 const handleMediaFile = (e) => {
-    mediaData.media_link = e.target.files[0]
 
+    mediaData.media_link = e.target.files[0]
 
     if(mediaData.media_link){
         if(mediaData.media_link.type.startsWith('video/') || mediaData.media_link.type.startsWith('audio/') || mediaData.media_link.type === 'application/pdf') {
@@ -73,6 +74,27 @@ const handleMediaFile = (e) => {
     else
         mediaData.media_type = null
 }
+const handleMediaFilePreview = (e) => {
+
+    mediaData.media_preview = e.target.files[0]
+
+    if(mediaData.media_preview){
+        if(!mediaData.media_preview.type.startsWith('image/')){
+            e.target.value = ''
+            mediaData.media_preview = null
+
+            alertsStatus.value.warning.status = true
+            alertsStatus.value.warning.title = 'Предупреждение'
+            alertsStatus.value.warning.desc = 'Возможно выбрать только форматы связанные с Изображением'
+
+            setTimeout(() => {
+                alertsStatus.value.warning.status = false
+            }, 4000)
+        }
+    }
+    else
+        mediaData.media_preview = null
+}
 
 const submitMediaData = () => {
     mediaData.post(route('admin.media.store'))
@@ -93,12 +115,47 @@ const submitMediaData = () => {
 
                     </DefaultLabel>
 
-                    <DefaultLabel label="Заголовок">
-                        <input
+                    <DefaultLabel label="Заголовок" :error-message="mediaData.errors.media_title">
+                        <TextInput
                             type="text"
-                            placeholder="placeholder"
-                            class="w-full rounded border-[1.5px] text-black border-stroke bg-transparent py-3 px-5 font-normal outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:text-white dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            placeholder="Введите заголовок"
+                            v-model="mediaData.media_title"
                         />
+                    </DefaultLabel>
+
+                    <DefaultLabel label="Описание" :error-message="mediaData.errors.media_description">
+                        <TextArea
+                            v-model="mediaData.media_description"
+                            custom-class="w-full rounded-lg border-[1.5px] text-black border-stroke bg-transparent py-3 px-5 font-normal outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:text-white dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                            placeholder="Введите описание" />
+                    </DefaultLabel>
+
+                    <DefaultLabel label="Возраст">
+                        <div class="flex gap-3">
+                            <TextInput
+                                v-model="mediaData.age_from"
+                                type="number"
+                                placeholder="С"
+                                custom-class="" />
+
+                            <TextInput
+                                v-model="mediaData.age_to"
+                                type="number"
+                                placeholder="До"
+                                custom-class="" />
+                        </div>
+                    </DefaultLabel>
+
+                    <DefaultLabel label="Пол">
+                        <SelectGroupOne
+                            v-model="mediaData.gender"
+                            selected-label="Выберите пол"
+                            :options="['Мужской', 'Женский', 'Любой']"
+                        />
+                    </DefaultLabel>
+
+                    <DefaultLabel label="Превью" :error-message="mediaData.errors.media_preview">
+                        <FileInput @take-selected-file="handleMediaFilePreview"/>
                     </DefaultLabel>
                 </div>
 
@@ -106,7 +163,9 @@ const submitMediaData = () => {
             </form>
         </DefaultCard>
 
-        <div class="absolute bottom-0 right-0">
+
+
+        <div class="fixed z-9999 bottom-0 right-0">
             <Transition name="fade">
                 <AlertWarning v-if="alertsStatus.warning.status" :title="alertsStatus.warning.title" :description="alertsStatus.warning.desc"/>
             </Transition>

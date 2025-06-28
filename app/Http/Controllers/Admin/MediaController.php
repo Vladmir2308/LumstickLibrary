@@ -10,9 +10,9 @@ class MediaController
 {
     public function index()
     {
-        $client = new Vimeo(env('VIMEO_ID'), env('VIMEO_SECRET'), env('VIMEO_TOKEN'));
+//        $client = new Vimeo(env('VIMEO_ID'), env('VIMEO_SECRET'), env('VIMEO_TOKEN'));
 
-        $response = $client->request('/tutorial', array(), 'GET');
+//        $response = $client->request('/tutorial', array(), 'GET');
 
 
         return Inertia::render('Admin/MediaPage');

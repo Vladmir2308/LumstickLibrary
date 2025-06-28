@@ -7,7 +7,6 @@ const model = defineModel({
 })
 
 const props = defineProps({
-    type: null,
     customClass: null,
     placeholder: null,
 })
@@ -15,11 +14,10 @@ const props = defineProps({
 </script>
 
 <template>
-    <input
-        :type="type"
-        :class="customClass"
+    <textarea
+        :class="'resize-none ' + customClass"
         :placeholder="placeholder"
-        :value="model"
+        v-model="model"
     />
 </template>
 

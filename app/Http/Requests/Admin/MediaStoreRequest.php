@@ -20,9 +20,9 @@ class MediaStoreRequest extends FormRequest
             'media_type' => 'required|in:video,audio,pdf',
             'media_title' => 'required|string',
             'media_description' => 'required|string',
-            'age_from' => 'required|numeric',
-            'age_to' => 'required|numeric',
-            'gender' => 'required|in:male,female,all',
+            'age_from' => '',
+            'age_to' => '',
+            'gender' => '',
             'media_preview' => 'required|file',
 
         ];
@@ -32,6 +32,9 @@ class MediaStoreRequest extends FormRequest
     {
         return [
             'media_type.required' => 'Необходимо выбрать файл',
+            'media_title.required' => 'Необходимо указать заголовок для видео',
+            'media_description.required' => 'Необходимо указать описание для видео',
+            'media_preview.required' => 'Необходимо выбрать превью',
         ];
     }
 }
