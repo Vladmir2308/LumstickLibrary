@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import SidebarArea from "@/Components/Admin/Sidebar/SidebarArea.vue";
 import HeaderArea from "@/Components/Admin/Header/HeaderArea.vue";
+import AlertWarning from "@/Components/Admin/Alerts/AlertWarning.vue";
+import AlertSuccess from "@/Components/Admin/Alerts/AlertSuccess.vue";
 </script>
 
 <template>
@@ -26,4 +28,6 @@ import HeaderArea from "@/Components/Admin/Header/HeaderArea.vue";
     </div>
   </div>
   <!-- ===== Page Wrapper End ===== -->
+
+
 </template>
