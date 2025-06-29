@@ -3,6 +3,9 @@ import SidebarArea from "@/Components/Admin/Sidebar/SidebarArea.vue";
 import HeaderArea from "@/Components/Admin/Header/HeaderArea.vue";
 import AlertWarning from "@/Components/Admin/Alerts/AlertWarning.vue";
 import AlertSuccess from "@/Components/Admin/Alerts/AlertSuccess.vue";
+import Alert from "@/Components/Admin/Alerts/Alert.vue";
+import {provide, ref} from "vue";
+
 </script>
 
 <template>

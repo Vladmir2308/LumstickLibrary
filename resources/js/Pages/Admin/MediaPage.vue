@@ -4,7 +4,7 @@ import ButtonDefault from "@/Components/Admin/Buttons/ButtonDefault.vue";
 import {useForm} from "@inertiajs/vue3";
 import DefaultCard from "@/Components/Admin/Forms/DefaultCard.vue";
 import DefaultLabel from "@/Components/Admin/Forms/DefaultLabel.vue";
-import {ref, watch} from "vue";
+import {inject, ref, watch} from "vue";
 import AlertWarning from "@/Components/Admin/Alerts/AlertWarning.vue";
 import AlertSuccess from "@/Components/Admin/Alerts/AlertSuccess.vue";
 import AlertError from "@/Components/Admin/Alerts/AlertError.vue";
@@ -12,6 +12,7 @@ import TextInput from "@/Components/Admin/Forms/Inputs/TextInput.vue";
 import FileInput from "@/Components/Admin/Forms/Inputs/FileInput.vue";
 import TextArea from "@/Components/Admin/Forms/Inputs/TextArea.vue";
 import SelectGroupOne from "@/Components/Admin/Forms/SelectGroupOne.vue";
+import Alert from "@/Components/Admin/Alerts/Alert.vue";
 
 const mediaData = useForm({
     media_link: null,
@@ -25,24 +26,13 @@ const mediaData = useForm({
 })
 
 const alertsStatus = ref({
-    success: {
-        status: false,
-        title: null,
-        desc: null,
-    },
-
-    warning: {
-        status: false,
-        title: null,
-        desc: null,
-    },
-
-    error: {
-        status: false,
-        title: null,
-        desc: null,
-    },
+    status: false,
+    title: null,
+    desc: null,
+    type: null
 })
+
+
 const handleMediaFile = (e) => {
 
     mediaData.media_link = e.target.files[0]
@@ -62,12 +52,13 @@ const handleMediaFile = (e) => {
             e.target.value = ''
             mediaData.media_type = null
 
-            alertsStatus.value.warning.status = true
-            alertsStatus.value.warning.title = 'Предупреждение'
-            alertsStatus.value.warning.desc = 'Возможно выбрать только форматы связанные с Видео | Аудио | PDF'
+            alertsStatus.value.status = true
+            alertsStatus.value.title = 'Предупреждение'
+            alertsStatus.value.desc = 'Возможно выбрать только форматы связанные с Видео | Аудио | PDF'
+            alertsStatus.value.type = 'warning'
 
             setTimeout(() => {
-                alertsStatus.value.warning.status = false
+                alertsStatus.value.status = false
             }, 4000)
         }
     }
@@ -83,12 +74,12 @@ const handleMediaFilePreview = (e) => {
             e.target.value = ''
             mediaData.media_preview = null
 
-            alertsStatus.value.warning.status = true
-            alertsStatus.value.warning.title = 'Предупреждение'
-            alertsStatus.value.warning.desc = 'Возможно выбрать только форматы связанные с Изображением'
+            alertsStatus.value.status = true
+            alertsStatus.value.title = 'Предупреждение'
+            alertsStatus.value.desc = 'Возможно выбрать только форматы связанные с Изображением'
 
             setTimeout(() => {
-                alertsStatus.value.warning.status = false
+                alertsStatus.value.status = false
             }, 4000)
         }
     }
@@ -163,19 +154,14 @@ const submitMediaData = () => {
             </form>
         </DefaultCard>
 
-
-
         <div class="fixed z-9999 bottom-0 right-0">
             <Transition name="fade">
-                <AlertWarning v-if="alertsStatus.warning.status" :title="alertsStatus.warning.title" :description="alertsStatus.warning.desc"/>
-            </Transition>
-
-            <Transition name="fade">
-                <AlertSuccess v-if="alertsStatus.success.status" :title="alertsStatus.success.title" :description="alertsStatus.success.desc"/>
-            </Transition>
-
-            <Transition name="fade">
-                <AlertError v-if="alertsStatus.error.status" :title="alertsStatus.error.title" :description="alertsStatus.error.desc" />
+                <Alert
+                    v-if="alertsStatus.status"
+                    :type="alertsStatus.type"
+                    :title="alertsStatus.title"
+                    :description="alertsStatus.desc"
+                />
             </Transition>
         </div>
     </AdminLayout>
@@ -184,10 +170,11 @@ const submitMediaData = () => {
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s ease;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+    transform: translateY(-10px);
 }
 </style>
