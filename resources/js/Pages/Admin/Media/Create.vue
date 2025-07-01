@@ -5,9 +5,6 @@ import {useForm} from "@inertiajs/vue3";
 import DefaultCard from "@/Components/Admin/Forms/DefaultCard.vue";
 import DefaultLabel from "@/Components/Admin/Forms/DefaultLabel.vue";
 import {inject, ref, watch} from "vue";
-import AlertWarning from "@/Components/Admin/Alerts/AlertWarning.vue";
-import AlertSuccess from "@/Components/Admin/Alerts/AlertSuccess.vue";
-import AlertError from "@/Components/Admin/Alerts/AlertError.vue";
 import TextInput from "@/Components/Admin/Forms/Inputs/TextInput.vue";
 import FileInput from "@/Components/Admin/Forms/Inputs/FileInput.vue";
 import TextArea from "@/Components/Admin/Forms/Inputs/TextArea.vue";
@@ -32,9 +29,19 @@ const alertsStatus = ref({
     type: null
 })
 
+function showAlert(title, desc, type, timeout){
+    alertsStatus.value.status = true
+    alertsStatus.value.title = title
+    alertsStatus.value.desc = desc
+    alertsStatus.value.type = type
+
+    setTimeout(() => {
+        alertsStatus.value.status = false
+    }, timeout * 1000)
+}
+
 
 const handleMediaFile = (e) => {
-
     mediaData.media_link = e.target.files[0]
 
     if(mediaData.media_link){
@@ -52,14 +59,7 @@ const handleMediaFile = (e) => {
             e.target.value = ''
             mediaData.media_type = null
 
-            alertsStatus.value.status = true
-            alertsStatus.value.title = 'Предупреждение'
-            alertsStatus.value.desc = 'Возможно выбрать только форматы связанные с Видео | Аудио | PDF'
-            alertsStatus.value.type = 'warning'
-
-            setTimeout(() => {
-                alertsStatus.value.status = false
-            }, 4000)
+            showAlert("Предупреждение", "Возможно выбрать только форматы связанные с Видео | Аудио | PDF", 'warning', 4)
         }
     }
     else
@@ -88,9 +88,14 @@ const handleMediaFilePreview = (e) => {
 }
 
 const submitMediaData = () => {
-    mediaData.post(route('admin.media.store'))
-}
+    mediaData.post(route('admin.media.store'), {
+        onSuccess: () => {
+            mediaData.reset()
 
+            showAlert("Успех", "Медиа файл успешно добавлен", 'success', 4)
+        }
+    })
+}
 </script>
 
 <template>
@@ -121,7 +126,7 @@ const submitMediaData = () => {
                             placeholder="Введите описание" />
                     </DefaultLabel>
 
-                    <DefaultLabel label="Возраст">
+                    <DefaultLabel label="Возраст (не обязательно)">
                         <div class="flex gap-3">
                             <TextInput
                                 v-model="mediaData.age_from"
@@ -137,7 +142,7 @@ const submitMediaData = () => {
                         </div>
                     </DefaultLabel>
 
-                    <DefaultLabel label="Пол">
+                    <DefaultLabel label="Пол (не обязательно)">
                         <SelectGroupOne
                             v-model="mediaData.gender"
                             selected-label="Выберите пол"
@@ -164,6 +169,7 @@ const submitMediaData = () => {
                 />
             </Transition>
         </div>
+
     </AdminLayout>
 </template>
 

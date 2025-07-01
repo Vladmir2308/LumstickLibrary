@@ -8,7 +8,7 @@ defineProps({
 
 <template>
     <div
-        class="flex w-full border-l-6   bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9"
+        class="flex w-full border-l-6 bg-opacity-[15%] px-7 py-8 shadow-md dark:bg-[#1B1B24] dark:bg-opacity-30 md:p-9"
         :class="{ 'border-[#F87171] bg-[#F87171]' : type === 'error',
                'border-warning bg-warning' : type === 'warning',
                'border-[#34D399] bg-[#34D399]' : type === 'success'
@@ -60,7 +60,7 @@ defineProps({
                 ></path>
             </svg>
         </div>
-        <div class="w-full">
+        <div class="w-100">
             <h5 class="mb-3 font-bold "
                 :class="{ 'text-[#B45454]' : type === 'error',
                'text-[#9D5425]' : type === 'warning',
